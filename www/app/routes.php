@@ -20,6 +20,7 @@ Route::post('/auth/register',               array('uses' => 'UserManagement@regi
 Route::post('/auth/signin',                 array('uses' => 'UserManagement@signin'));
 Route::post('/user/save_mappings',          array('uses' => 'UserManagement@saveMappings'));
 Route::get('/user/show_mappings',           array('uses' => 'UserManagement@showMappings'));
+Route::get('/user/get_mapping/{id}',        array('uses' => 'UserManagement@getMapping'));
 Route::get('/auth/signin/{id}',             array('uses' => 'UserManagement@signin'));
 Route::get('/auth/logout',                  array('uses' => 'UserManagement@logout'));
 

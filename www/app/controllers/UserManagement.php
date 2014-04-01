@@ -91,15 +91,13 @@ class UserManagement extends BaseController {
         return View::make('ajax/mappings_list')->with($view_data);
     }
 
-    public function getMapping() {
+    public function getMapping($mapping_id) {
         if (!Auth::check()) {
             return Response::json('AUTH_FAIL');
         }
 
-        // If user is logged in, continue
-        $view_data = array(
-            'sessions' => SavedSession::getSavedSessionsByUserId(Auth::User()->id)
-        );
-        return View::make('ajax/mappings_list')->with($view_data);
+        $saved_session = SavedSession::find($mapping_id);
+        $saved_session->loadMappings();
+        return View::make('ajax/individual_mapping')->with(array('session' => $saved_session));
     }
 }

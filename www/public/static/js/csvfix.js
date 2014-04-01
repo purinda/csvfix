@@ -238,7 +238,8 @@ Mapping = {
 
 MappingGroup = {
     options: {
-        url_save_mappings : '/user/save_mappings'
+        url_save_mappings : '/user/save_mappings',
+        url_get_mapping   : '/user/get_mapping/'
     },
 
     initialise: function() {
@@ -260,6 +261,11 @@ MappingGroup = {
 
         $('div#save-dialog button.btn-save-mappings').on('click', function() {
             MappingGroup.save();
+        });
+
+        $('div#mappings-list-dialog').on('click', 'button.btn-open-mapping', function(evt) {
+            var btn_open = $(evt.target);
+            MappingGroup.loadMapping(btn_open.data('id'));
         });
 
         // Add the very first column group to start off with...
@@ -291,6 +297,20 @@ MappingGroup = {
         element.parents('div.merge-column-container').remove();
     },
 
+    loadMapping: function(mapping_id) {
+        // Process serialised form data via server side
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: MappingGroup.options.url_get_mapping + mapping_id,
+            success: function(html) {
+                $('form.merge-column-group').empty();
+                $('form.merge-column-group').append(html);
+            },
+            dataType: 'html'
+        });
+    },
+
     save: function() {
         var jq_column_groups_container = $('form.merge-column-group');
         var jq_save_name_element       = $('div#save-dialog input.mapping-name-input');
@@ -318,10 +338,10 @@ MappingGroup = {
                 cache: false,
                 url: MappingGroup.options.url_save_mappings,
                 data: json_encoded,
-                success: function(html) {
-                    $('div#preview-table div.modal-body').html(html);
+                success: function(data) {
+                    $('div#save-dialog').modal('hide');
                 },
-                dataType: 'html'
+                dataType: 'json'
             });
         });
     }

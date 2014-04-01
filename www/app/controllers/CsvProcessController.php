@@ -17,11 +17,33 @@ class CSVProcessController extends BaseController {
         $file      = UserFile::find($file_id);
         $columns   = $file->getFields();
 
+        // Split columns based on first letter
+        $columns_view = array();
+        if (count($columns) > 30) {
+            $group = 0;
+            $group_max = 10;
+            $i=0;
+            foreach ($columns as $column_name) {
+
+                if ($i % $group_max == 0) {
+                    $group = $i . ' - ' . $i + $group_max;
+                    $group_label = 'Columns Group .. ' . $group;
+                    $group = $i;
+                }
+
+                $columns_view[$group_label][] = $column_name;
+                $i++;
+            }
+        } else {
+            $columns_view = $columns;
+        }
+
         $view_data = array(
-            'file_id'    => $file_id,
-            'page_title' => 'Viewing ' . $file->file_name,
-            'file_name'  => $file->file_name,
-            'columns'    => $columns,
+            'file_id'      => $file_id,
+            'page_title'   => 'Viewing ' . $file->file_name,
+            'file_name'    => $file->file_name,
+            'columns'      => $columns,
+            'columns_menu' => $columns_view,
         );
 
         return View::make('home/view')->with($view_data);

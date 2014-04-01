@@ -60,6 +60,15 @@ class FieldMapper{
         }
 
         $source_fields = reset($this->content);
+
+        // TODO: Link this with File getFields function
+        $source_fields = array_map(
+            function($value) {
+                return preg_replace('/[^\d_\- a-z]/i', '', $value);
+            },
+            $source_fields
+        );
+
         foreach ($this->content as $row_index => $row) {
 
             // Ignore the first row
@@ -77,7 +86,7 @@ class FieldMapper{
 
                 // Get a sublist of column separators for the filtered row
                 $column_separators = $this->column_separators[$destination_column];
-                $array_reduce = function($filtered_row, $column_separators) {
+                $array_reduce      = function($filtered_row, $column_separators) {
                     $delimited_array = array();
                     foreach (array_values($filtered_row) as $index => $field_value) {
                         $delimited_array[] = $field_value . $column_separators[$index];

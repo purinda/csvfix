@@ -22,11 +22,20 @@
                 Map <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right" role="menu">
-                @foreach($columns as $column)
+                @foreach($columns_menu as $prefix => $column)
+                @if (!is_array($column))
                 <li><a href="#" class="btn-add-column" data-column="{{ $column }}">{{ $column }}</a></li>
+                @else
+                  <li class="dropdown-submenu">
+                  <a tabindex="-1" href="#">{{ $prefix }}</a>
+                    <ul class="dropdown-menu">
+                    @foreach ($column as $column_name)
+                      <li><a href="#" class="btn-add-column" data-column="{{ $column_name }}">{{ $column_name }}</a></li>
+                    @endforeach
+                    </ul>
+                  </li>
+                @endif
                 @endforeach
-                <li class="divider"></li>
-                <li><a href="#" class="btn-add-column" data-column="text">Add Text</a></li>
               </ul>
             </div>
           </div>

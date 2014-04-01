@@ -35,7 +35,19 @@ class UserFile extends Eloquent{
 
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
-        return reset($columns);
+        $columns         = reset($columns);
+
+        // Sanitize columns
+        // TODO: Link this with FieldMapper getFields function
+        //
+        $columns = array_map(
+            function($value) {
+                return preg_replace('/[^\d_\- a-z]/i', '', $value);
+            },
+            $columns
+        );
+
+        return $columns;
     }
 
     public function getContent() {
@@ -46,6 +58,7 @@ class UserFile extends Eloquent{
 
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
+
         return $columns;
     }
 
