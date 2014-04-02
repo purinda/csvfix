@@ -38,16 +38,16 @@ class UserFile extends Eloquent{
         $columns         = reset($columns);
 
         // Sanitize columns
-        // TODO: Link this with FieldMapper getFields function
-        //
-        $columns = array_map(
-            function($value) {
-                return preg_replace('/[^\d_\- a-z]/i', '', $value);
-            },
-            $columns
-        );
+        return self::sanitizeColumns($columns);
+    }
 
-        return $columns;
+    public static function sanitizeColumns($columns) {
+        $result_columns = array();
+        foreach ($columns as $index => $column_name) {
+            $sanitized_index = preg_replace('/[^\d_a-z]/i', '_', $column_name);
+            $result_columns[$sanitized_index] = $column_name;
+        }
+        return $result_columns;
     }
 
     public function getContent() {
@@ -79,5 +79,9 @@ class UserFile extends Eloquent{
 
     public function getFilePath() {
         return $this->directory . '/' . $this->file_name;
+    }
+
+    public function getFilePathOutput() {
+        return $this->directory . '/' . $this->file_name . '.processed';
     }
 }

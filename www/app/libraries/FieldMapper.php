@@ -60,14 +60,7 @@ class FieldMapper{
         }
 
         $source_fields = reset($this->content);
-
-        // TODO: Link this with File getFields function
-        $source_fields = array_map(
-            function($value) {
-                return preg_replace('/[^\d_\- a-z]/i', '', $value);
-            },
-            $source_fields
-        );
+        $source_fields = array_keys(UserFile::sanitizeColumns($source_fields));
 
         foreach ($this->content as $row_index => $row) {
 

@@ -27,6 +27,8 @@ Route::get('/auth/logout',                  array('uses' => 'UserManagement@logo
 // CSV Related
 Route::get('/view/{id}',                          array('uses' => 'CSVProcessController@view'));
 Route::get('/view/get_file_content/{id}',         array('uses' => 'CSVProcessController@getFileData'));
+Route::get('/process/download/{id}',              array('uses' => 'CSVProcessController@downloadFile'));
+Route::post('/process/export/{id}',               array('uses' => 'CSVProcessController@processExportFile'));
 Route::post('/process/merge_fields/{id}/{limit}', array('uses' => 'CSVProcessController@processMergeFields'));
 Route::post('/process/preview/{id}/{limit}',      array('uses' => 'CSVProcessController@preview'));
 

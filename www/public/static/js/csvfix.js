@@ -213,11 +213,12 @@ Mapping = {
 
     // Add merge/map column
     addColumn: function(element) {
-        var column_name = element.data('column');
-        var column_index = MappingGroup.getClosestColumnGroupIndex(element);
+        var column_name         = element.data('column');
+        var column_display_name = element.data('column-display-name');
+        var column_index        = MappingGroup.getClosestColumnGroupIndex(element);
 
         var $column_tr  = $('<tr>' +
-                            '<td>' + column_name + '</td>' +
+                            '<td>' + column_display_name + '</td>' +
                             '<td><input data-name="column[][' + column_name +']" type="hidden" value="' + column_name + '"></td>' +
                             '<td>' + '<div class="col-sm-11 no-padding"><input data-name="column_separator[][' + column_name +']" type="text" class="form-control input-sm"></div>' + '</td>' +
                             // '<td>' + '<div class="col-sm-11 no-padding"><input data-name="column_stripper[][' + column_name +']" type="text" class="form-control input-sm"></div>' + '</td>' +
@@ -350,9 +351,11 @@ MappingGroup = {
 
 Exporter = {
     options: {
-        url_process : '/process/merge_fields/',
-        url_preview : '/process/preview/',
-        file_id     : null
+        url_process  : '/process/merge_fields/',
+        url_export   : '/process/export/',
+        url_download : '/process/download/',
+        url_preview  : '/process/preview/',
+        file_id      : null
     },
 
     initialise: function() {
@@ -399,10 +402,11 @@ Exporter = {
             $.ajax({
                 type: "POST",
                 cache: false,
-                url: Exporter.options.url_process + Exporter.options.file_id + '/' + limit,
+                url: Exporter.options.url_export + Exporter.options.file_id,
                 data: json_encoded,
                 success: function(data) {
-                    console.log(data);
+                    var win = window.open(Exporter.options.url_download + Exporter.options.file_id, '_blank');
+                    win.focus();
                 },
                 dataType: 'json'
             });

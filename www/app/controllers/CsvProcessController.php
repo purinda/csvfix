@@ -23,7 +23,7 @@ class CSVProcessController extends BaseController {
             $group = 0;
             $group_max = 10;
             $i=0;
-            foreach ($columns as $column_name) {
+            foreach ($columns as $column_name => $column_display_name) {
 
                 if ($i % $group_max == 0) {
                     $group = $i . ' - ' . $i + $group_max;
@@ -31,7 +31,7 @@ class CSVProcessController extends BaseController {
                     $group = $i;
                 }
 
-                $columns_view[$group_label][] = $column_name;
+                $columns_view[$group_label][$column_name] = $column_display_name;
                 $i++;
             }
         } else {
@@ -71,7 +71,7 @@ class CSVProcessController extends BaseController {
         return Response::json(array('aaData' => $data));
     }
 
-    public function export($file_id, $limit = null) {
+    public function export($file_id, $limit = null, $include_headers = FALSE) {
         $merge_fields      = Input::get('merge_field');
         $columns           = Input::get('column');
         $column_separators = Input::get('column_separator');
@@ -92,6 +92,42 @@ class CSVProcessController extends BaseController {
 
     public function processMergeFields($file_id, $limit = null) {
         return Response::json($this->export($file_id, $limit));
+    }
+
+    public function processExportFile($file_id) {
+
+        // Create new PHPExcel object
+        $objPHPExcel = new PHPExcel();
+        $file = UserFile::find($file_id);
+
+        // Set properties
+        $objPHPExcel->getProperties()
+            ->setCreator("CSVFix.com")
+            ->setLastModifiedBy("CSVFix.com")
+            ->setTitle($file->file_name)
+            ->setSubject('')
+            ->setDescription('')
+            ->setKeywords('')
+            ->setCategory('');
+
+        $php_excel = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
+        $rows      = $this->export($file_id, 100000, TRUE);
+        $headers   = array_keys(reset($rows));
+
+        // NOTE: Excel sheets gotta start with 1 not 0 (ex A1)
+        $objPHPExcel->setActiveSheetIndex(0)->fromArray($headers, NULL, 'A1');
+        foreach ($rows as $index => $row) {
+            $objPHPExcel->setActiveSheetIndex(0)->fromArray($row, NULL, 'A' . (int)($index + 2));
+        }
+
+        $php_excel->save($file->getFilePathOutput());
+        return Response::json(true);
+    }
+
+    public function downloadFile($file_id) {
+        $file = UserFile::find($file_id);
+
+        return Response::download($file->getFilePathOutput(), $file->file_name);
     }
 
 }
