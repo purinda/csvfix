@@ -16,7 +16,7 @@ class FieldMapper{
         // Check for file path and throw an exception if no file found
 
         //  Create the PHPExcel object
-        $worksheet_reader = PHPExcel_IOFactory::createReader($file->getPHPExcelFileType());
+        $worksheet_reader = PHPExcel_IOFactory::createReader($file->getClassType());
         $this->php_excel  = $worksheet_reader->load($file->getFilePath());
 
         // Free up some memory

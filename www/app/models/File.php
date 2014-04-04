@@ -29,8 +29,7 @@ class UserFile extends Eloquent{
 
     public function getFields() {
         $file_path       = $this->directory . '/' . $this->file_name;
-        $info            = new SplFileInfo($file_path);
-        $csv_reader      = PHPExcel_IOFactory::createReader(self::getClassType($info->getExtension()));
+        $csv_reader      = PHPExcel_IOFactory::createReader($this->getClassType());
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
         $columns         = reset($columns);
@@ -98,8 +97,7 @@ class UserFile extends Eloquent{
 
     public function getContent() {
         $file_path       = $this->directory . '/' . $this->file_name;
-        $info            = new SplFileInfo($file_path);
-        $csv_reader      = PHPExcel_IOFactory::createReader(self::getClassType($info->getExtension()));
+        $csv_reader      = PHPExcel_IOFactory::createReader($this->getClassType());
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
 
@@ -124,7 +122,13 @@ class UserFile extends Eloquent{
      * @param  [type] $type [description]
      * @return [type]       [description]
      */
-    public static function getClassType($type) {
+    public function getClassType($type = null) {
+        if ($type == null) {
+            $file_path  = $this->directory . '/' . $this->file_name;
+            $info       = new SplFileInfo($file_path);
+            $type       = $info->getExtension();
+        }
+
         switch (strtoupper($type)) {
             case 'XLS':
                 $type = 'Excel5';
