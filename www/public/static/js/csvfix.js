@@ -265,6 +265,13 @@ MappingGroup = {
         });
 
         $('div#mappings-list-dialog').on('click', 'button.btn-open-mapping', function(evt) {
+            var column_group = $('form.merge-column-group');
+            // Check if we are on the right page before running ajax calls and do all that shit.
+            if (!column_group.length) {
+                alert('Please upload a file first. Then you can apply existing mappings and manipulate fields.');
+                return false;
+            }
+
             var btn_open = $(evt.target);
             MappingGroup.loadMapping(btn_open.data('id'));
         });
@@ -487,6 +494,12 @@ $(document).ready(function() {
 
         // Initialise exporter
         Exporter.initialise();
+    } else {
+
+        // An exception, TODO: Clean this up later..
+        $('div#mappings-list-dialog').on('click', 'button.btn-open-mapping', function(evt) {
+            alert('Please upload a file first. Then you can apply existing mappings and manipulate fields.');
+        });
     }
 
 });
