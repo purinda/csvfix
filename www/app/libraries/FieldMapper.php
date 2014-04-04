@@ -47,11 +47,18 @@ class FieldMapper{
         }
 
         // Little bit of validation before accepting all inputs.
-        // Check if the output columns have assigned source columns
-        $fail = !empty(array_diff_key($output_fields, $columns));
+        // 1. Check if the output columns have assigned source columns
+        // 2. Check if output column names are not empty.
+        $success = empty(array_diff_key($output_fields, $columns));
         foreach ($columns as $value) {
             if (!is_array($value)) {
-                $fail = true;
+                $success = false;
+            }
+        }
+
+        foreach ($output_fields as $key => $value) {
+            if (empty($value)) {
+                $success = false;
             }
         }
 
@@ -64,7 +71,7 @@ class FieldMapper{
             $this->column_separators[$field] = array_values($column_separators[$field_index]);
         }
 
-        return $fail;
+        return $success;
     }
 
     protected function process($limit = null) {

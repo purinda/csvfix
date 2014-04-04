@@ -28,11 +28,9 @@ class UserFile extends Eloquent{
     }
 
     public function getFields() {
-        $file_path = $this->directory . '/' . $this->file_name;
-
-        // $csv_reader = PHPExcel_IOFactory::createReader('Excel2007');
-        $csv_reader = PHPExcel_IOFactory::createReader('CSV');
-
+        $file_path       = $this->directory . '/' . $this->file_name;
+        $info            = new SplFileInfo($file_path);
+        $csv_reader      = PHPExcel_IOFactory::createReader(self::getClassType($info->getExtension()));
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
         $columns         = reset($columns);
@@ -99,30 +97,13 @@ class UserFile extends Eloquent{
     }
 
     public function getContent() {
-        $file_path = $this->directory . '/' . $this->file_name;
-
-        // $csv_reader = PHPExcel_IOFactory::createReader('Excel2007');
-        $csv_reader = PHPExcel_IOFactory::createReader('CSV');
-
+        $file_path       = $this->directory . '/' . $this->file_name;
+        $info            = new SplFileInfo($file_path);
+        $csv_reader      = PHPExcel_IOFactory::createReader(self::getClassType($info->getExtension()));
         $this->php_excel = $csv_reader->load($file_path);
         $columns         = $this->php_excel->getActiveSheet()->toArray();
 
         return $columns;
-    }
-
-    public function getPHPExcelFileType() {
-        //
-        // Return one of the following (read the doc)
-        //
-
-        // $filetype = 'Excel5';
-        // $filetype = 'Excel2007';
-        // $filetype = 'Excel2003XML';
-        // $filetype = 'OOCalc';
-        // $filetype = 'SYLK';
-        // $filetype = 'Gnumeric';
-
-        return 'CSV';
     }
 
     public function getFilePath() {
@@ -153,6 +134,7 @@ class UserFile extends Eloquent{
                 $type = 'Excel2007';
                 break;
 
+            case 'CSV':
             default:
                 $type = 'CSV';
                 break;
