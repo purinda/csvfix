@@ -24,7 +24,7 @@
               <ul class="dropdown-menu pull-right" role="menu">
                 @foreach($columns_menu as $prefix => $column)
                 @if (!is_array($column))
-                <li><a href="#" class="btn-add-column" data-column="{{ $column }}" data-column-display-name="{{ $columns[$column] }}">{{ $columns[$column] }}</a></li>
+                <li><a href="#" class="btn-add-column" data-column="{{ $column }}" data-column-display-name="{{ $columns[$prefix] }}">{{ $columns[$prefix] }}</a></li>
                 @else
                   <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">{{ $prefix }}</a>
@@ -121,9 +121,9 @@
           Export As <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="export-type" data="csv">CSV</a></li>
-          <li><a href="#" class="export-type" data="xls-2000">Microsoft Excel 2000 (.XLS) </a></li>
-          <li><a href="#" class="export-type" data="xls-2010">Microsoft Excel 2010 (.XLSX) </a></li>
+          <li><a href="#" class="export-type" data-type="CSV">CSV</a></li>
+          <li><a href="#" class="export-type" data-type="XLS">Microsoft Excel 2000 (.XLS) </a></li>
+          <li><a href="#" class="export-type" data-type="XLSX">Microsoft Excel 2010 (.XLSX) </a></li>
         </ul>
       </li>
     </ul>

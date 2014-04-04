@@ -85,7 +85,9 @@ class CSVProcessController extends BaseController {
 
         $field_mapper = new FieldMapper($file);
         $field_mapper->loadContent();
-        $field_mapper->setColumns($merge_fields, $columns, $column_separators);
+        if (!$field_mapper->setColumns($merge_fields, $columns, $column_separators)) {
+            return false;
+        }
 
         return $field_mapper->getProcessedContent($limit);
     }
@@ -94,14 +96,14 @@ class CSVProcessController extends BaseController {
         return Response::json($this->export($file_id, $limit));
     }
 
-    public function processExportFile($file_id) {
+    public function processExportFile($file_id, $type) {
 
         // Create new PHPExcel object
-        $objPHPExcel = new PHPExcel();
+        $php_excel = new PHPExcel();
         $file = UserFile::find($file_id);
 
         // Set properties
-        $objPHPExcel->getProperties()
+        $php_excel->getProperties()
             ->setCreator("CSVFix.com")
             ->setLastModifiedBy("CSVFix.com")
             ->setTitle($file->file_name)
@@ -110,24 +112,25 @@ class CSVProcessController extends BaseController {
             ->setKeywords('')
             ->setCategory('');
 
-        $php_excel = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
-        $rows      = $this->export($file_id, 100000, TRUE);
-        $headers   = array_keys(reset($rows));
+
+        $excel_writer = PHPExcel_IOFactory::createWriter($php_excel, UserFile::getClassType($type));
+        $rows         = $this->export($file_id, 100000, TRUE);
+        $headers      = array_keys(reset($rows));
 
         // NOTE: Excel sheets gotta start with 1 not 0 (ex A1)
-        $objPHPExcel->setActiveSheetIndex(0)->fromArray($headers, NULL, 'A1');
+        $php_excel->setActiveSheetIndex(0)->fromArray($headers, NULL, 'A1');
         foreach ($rows as $index => $row) {
-            $objPHPExcel->setActiveSheetIndex(0)->fromArray($row, NULL, 'A' . (int)($index + 2));
+            $php_excel->setActiveSheetIndex(0)->fromArray($row, NULL, 'A' . (int)($index + 2));
         }
 
-        $php_excel->save($file->getFilePathOutput());
-        return Response::json(true);
+        $excel_writer->save($file->getFilePathOutput($type));
+        return Response::json($type);
     }
 
-    public function downloadFile($file_id) {
+    public function downloadFile($file_id, $type) {
         $file = UserFile::find($file_id);
 
-        return Response::download($file->getFilePathOutput(), $file->file_name);
+        return Response::download($file->getFilePathOutput($type));
     }
 
 }

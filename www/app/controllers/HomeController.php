@@ -11,6 +11,7 @@ class HomeController extends BaseController {
 	{
         $view_data = array(
             'page_title' => 'Home',
+            'copyright'  => 'Purinda Gunasekara',
         );
 
         return View::make('home/index')->with($view_data);
@@ -31,6 +32,15 @@ class HomeController extends BaseController {
 
         // flash data redirect
         return Redirect::to('/view/' . $file->id);
+    }
+
+    public function resources() {
+        $view_data = array(
+            'page_title' => 'Resources',
+            'copyright'  => 'Purinda Gunasekara',
+        );
+
+        return View::make('home/resources')->with($view_data);
     }
 
 }

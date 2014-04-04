@@ -36,7 +36,7 @@ class FieldMapper{
     }
 
     public function setColumns($output_fields, $columns, $column_separators = null) {
-        $this->output_fields     = $output_fields;
+        $this->output_fields = $output_fields;
 
         if (empty($columns)) {
             $columns = array();
@@ -46,10 +46,25 @@ class FieldMapper{
             $column_separators = array();
         }
 
-        foreach ($output_fields as $field_index => $field) {
-            $this->columns[$field]           = array_values(isset($columns[$field_index]) ? $columns[$field_index] : array());
-            $this->column_separators[$field] = array_values(isset($column_separators[$field_index]) ? $column_separators[$field_index] : array());
+        // Little bit of validation before accepting all inputs.
+        // Check if the output columns have assigned source columns
+        $fail = !empty(array_diff_key($output_fields, $columns));
+        foreach ($columns as $value) {
+            if (!is_array($value)) {
+                $fail = true;
+            }
         }
+
+        foreach ($output_fields as $field_index => $field) {
+            if (!isset($columns[$field_index]) || empty($columns[$field_index])) {
+                continue;
+            }
+
+            $this->columns[$field]           = array_values($columns[$field_index]);
+            $this->column_separators[$field] = array_values($column_separators[$field_index]);
+        }
+
+        return $fail;
     }
 
     protected function process($limit = null) {
@@ -70,7 +85,6 @@ class FieldMapper{
             }
 
             $output_row = array();
-
             $row = array_combine($source_fields, $row);
             foreach ($this->columns as $destination_column => $source_columns) {
 

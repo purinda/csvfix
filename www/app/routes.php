@@ -13,6 +13,7 @@
 
 // Common
 Route::get('/',                             array('uses' => 'HomeController@showWelcome'));
+Route::get('/resources',                    array('uses' => 'HomeController@resources'));
 Route::post('/upload',                      array('uses' => 'HomeController@upload'));
 
 // User management
@@ -27,8 +28,8 @@ Route::get('/auth/logout',                  array('uses' => 'UserManagement@logo
 // CSV Related
 Route::get('/view/{id}',                          array('uses' => 'CSVProcessController@view'));
 Route::get('/view/get_file_content/{id}',         array('uses' => 'CSVProcessController@getFileData'));
-Route::get('/process/download/{id}',              array('uses' => 'CSVProcessController@downloadFile'));
-Route::post('/process/export/{id}',               array('uses' => 'CSVProcessController@processExportFile'));
+Route::get('/process/download/{id}/{type}',       array('uses' => 'CSVProcessController@downloadFile'));
+Route::post('/process/export/{id}/{type}',        array('uses' => 'CSVProcessController@processExportFile'));
 Route::post('/process/merge_fields/{id}/{limit}', array('uses' => 'CSVProcessController@processMergeFields'));
 Route::post('/process/preview/{id}/{limit}',      array('uses' => 'CSVProcessController@preview'));
 

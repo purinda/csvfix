@@ -43,10 +43,58 @@ class UserFile extends Eloquent{
 
     public static function sanitizeColumns($columns) {
         $result_columns = array();
-        foreach ($columns as $index => $column_name) {
-            $sanitized_index = preg_replace('/[^\d_a-z]/i', '_', $column_name);
+
+        // Sort columns by names so duplicates can be identified by looking at
+        // the closest array element. Then append a suffix to the duplicates.
+        natsort($columns);
+        $unique_columns = array();
+        $j = 1;
+
+        // Append suffixes to duplicate names
+        for($i = 0; $i < count($columns); $i++) {
+            if (current($columns) === next($columns)) {
+                $next_item_key = key($columns);
+                $unique_columns[$next_item_key] = $columns[$next_item_key] . ' - Duplicate ' . ++$j;
+
+                // Append - Duplicate 0 to the very first duplicate column
+                if ($j === 2) {
+                    prev($columns);
+                    $prev_item_key = key($columns);
+                    $unique_columns[$prev_item_key] .= ' - Duplicate 1';
+
+                    // Return to the next iterator so the algorithm can continue doing what
+                    // it was doing before get into this IF
+                    next($columns);
+                }
+
+                continue;
+            } else {
+                $next_item_key = key($columns);
+
+                // Very first item is a special case where the value of the 0th element
+                // should be inserted in to the resulting array not next($columns) pointed element.
+                if ($i === 0) {
+                    prev($columns);
+                    $next_item_key = key($columns);
+                }
+
+                if (isset($columns[$next_item_key])) {
+                    $unique_columns[$next_item_key] = $columns[$next_item_key];
+                }
+            }
+
+            $j = 1;
+        }
+
+        unset($columns);
+
+        // Restore the array based on the key sequence
+        ksort($unique_columns);
+        foreach ($unique_columns as $index => $column_name) {
+            $sanitized_index = preg_replace('/[^\d_a-z]/i', '', $column_name);
             $result_columns[$sanitized_index] = $column_name;
         }
+
         return $result_columns;
     }
 
@@ -81,7 +129,35 @@ class UserFile extends Eloquent{
         return $this->directory . '/' . $this->file_name;
     }
 
-    public function getFilePathOutput() {
-        return $this->directory . '/' . $this->file_name . '.processed';
+    public function getFilePathOutput($type = 'CSV') {
+        $info             = new SplFileInfo($this->getFilePath());
+        $name_without_ext = $info->getBaseName('.' . $info->getExtension());
+
+        return $this->directory . '/' . $name_without_ext . ' ' . date("Ymd His") . '.' . strtolower($type);
+    }
+
+    /**
+     * Return PHPExcel class type required to read/write
+     * the file.
+     *
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public static function getClassType($type) {
+        switch (strtoupper($type)) {
+            case 'XLS':
+                $type = 'Excel5';
+                break;
+
+            case 'XLSX':
+                $type = 'Excel2007';
+                break;
+
+            default:
+                $type = 'CSV';
+                break;
+        }
+
+        return $type;
     }
 }

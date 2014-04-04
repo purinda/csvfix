@@ -1,3 +1,9 @@
+@if ($rows === false)
+<div class="alert alert-warning">
+<strong>Hmmm...!</strong><br>
+There seems to be a problem with Output Columns you have specified, either they are not linked to any source columns or no Column Name entered.
+</div>
+@else
 <table cellpadding="0" cellspacing="0" border="0" class="table table-hover table-striped" width="100%">
   <thead>
     <tr>
@@ -23,3 +29,4 @@
     </tr>
   </tfoot>
 </table>
+@endif

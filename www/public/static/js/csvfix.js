@@ -366,7 +366,7 @@ Exporter = {
 
             // Set the export type
 
-            Exporter.process(null);
+            Exporter.process($(e.target).data('type'));
         });
 
         // Preview
@@ -382,11 +382,12 @@ Exporter = {
     // Go through elements found on the page and update their names [array] ids
     // as per columns added by the uesr.
     //
-    process: function(limit) {
+    process: function(type) {
 
         var jq_column_groups_container = $('form.merge-column-group');
+        var merge_column_containers = jq_column_groups_container.children('div.merge-column-container');
 
-        jq_column_groups_container.children('div.merge-column-container').each(function(i, merge_column_container) {
+        jq_column_groups_containers.each(function(i, merge_column_container) {
             $(merge_column_container).find('*[data-name]').each(function(j, element) {
                 var jq_element          = $(element);
                 var el_name             = jq_element.data('name');
@@ -398,14 +399,20 @@ Exporter = {
         }).promise().done(function() {
             var json_encoded = jq_column_groups_container.serializeObject();
 
+            // Simple validation to see of output CSV fields are not the same
+            if ($.unique(json_encoded.merge_field).length < jq_column_groups_containers.length) {
+                alert('Hmm... found a little problem with your output fields, there seems to be more than one field with the same name. Columns in CSV files should be unique :)');
+                return false;
+            }
+
             // Process serialised form data via server side
             $.ajax({
                 type: "POST",
                 cache: false,
-                url: Exporter.options.url_export + Exporter.options.file_id,
+                url: Exporter.options.url_export + Exporter.options.file_id + '/' + type,
                 data: json_encoded,
                 success: function(data) {
-                    var win = window.open(Exporter.options.url_download + Exporter.options.file_id, '_blank');
+                    var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data, '_blank');
                     win.focus();
                 },
                 dataType: 'json'
@@ -416,12 +423,13 @@ Exporter = {
 
     preview: function() {
         var jq_column_groups_container = $('form.merge-column-group');
+        var preview_dlg = $('div#preview-table div.modal-body');
+        var merge_column_containers = jq_column_groups_container.children('div.merge-column-container');
         var limit = 10;
+        preview_dlg.empty();
+        preview_dlg.html('<div class="loader">Processing...</div>');
 
-        $('div#preview-table div.modal-body').empty();
-        $('div#preview-table div.modal-body').html('<div class="loader">Processing...</div>');
-
-        jq_column_groups_container.children('div.merge-column-container').each(function(i, merge_column_container) {
+        merge_column_containers.each(function(i, merge_column_container) {
             $(merge_column_container).find('*[data-name]').each(function(j, element) {
                 var jq_element          = $(element);
                 var el_name             = jq_element.data('name');
@@ -432,6 +440,12 @@ Exporter = {
 
         }).promise().done(function() {
             var json_encoded = jq_column_groups_container.serializeObject();
+
+            // Simple validation to see of output CSV fields are not the same
+            if ($.unique(json_encoded.merge_field).length < merge_column_containers.length) {
+                preview_dlg.html('<div class="alert alert-warning"> <strong>Hmmm kay...</strong><br> found a little problem with your output fields, there seems to be more than one field with the same name. Columns in CSV files should be unique :) </div>');
+                return false;
+            }
 
             // Process serialised form data via server side
             $.ajax({
