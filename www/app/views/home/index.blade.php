@@ -37,7 +37,7 @@
         <p>You don't need to add AutoFilters to columns, just type what you are after in the text box and it will filter the entire spreadsheet.</p>
     </div>
     <div class="col-md-4">
-        <h3>Merge and Transform data</h3>
+        <h3>Merge & Transform data</h3>
         <p class="text-success">Filter messy spreadsheet data into the format you want!</p>
         <p>Intuative column editor and manipulation tool will let you <strong>combine</strong> one or more columns while <strong>stripping out/cleaning</strong> letters or any sort of characters you don't need.</p>
         <p>Register online to save your mostly used data mapping templates online, just upload the file and apply the template to transform your data.</p>
