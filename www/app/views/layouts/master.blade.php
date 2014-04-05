@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/static/css/jquery.datatables.css" type="text/css" media="screen" />
 
   <!-- Custom Theme  -->
-  <link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" />
 
   <!-- Javascripts -->
   <script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
