@@ -35,7 +35,7 @@ class FieldMapper{
         unset($this->php_excel);
     }
 
-    public function setColumns($output_fields, $columns, $column_separators = null) {
+    public function setColumns($output_fields, $columns, $column_separators = null, $column_strippers = null) {
         $this->output_fields = $output_fields;
 
         if (empty($columns)) {
@@ -44,6 +44,10 @@ class FieldMapper{
 
         if (empty($column_separators)) {
             $column_separators = array();
+        }
+
+        if (empty($column_strippers)) {
+            $column_strippers = array();
         }
 
         // Little bit of validation before accepting all inputs.
@@ -69,6 +73,7 @@ class FieldMapper{
 
             $this->columns[$field]           = array_values($columns[$field_index]);
             $this->column_separators[$field] = array_values($column_separators[$field_index]);
+            $this->column_strippers[$field]  = array_values($column_strippers[$field_index]);
         }
 
         return $success;
@@ -100,15 +105,25 @@ class FieldMapper{
 
                 // Get a sublist of column separators for the filtered row
                 $column_separators = $this->column_separators[$destination_column];
-                $array_reduce      = function($filtered_row, $column_separators) {
+                $column_strippers  = $this->column_strippers[$destination_column];
+
+                $array_reduce      = function($filtered_row, $column_separators, $column_strippers) {
                     $delimited_array = array();
                     foreach (array_values($filtered_row) as $index => $field_value) {
+
+                        // Do the trimming of chars
+                        $trim_chars = explode(',', $column_strippers[$index]);
+                        foreach ($trim_chars as $char) {
+                            $field_value = str_replace($char, '', $field_value);
+                        }
+
+                        // Append columns to the output column
                         $delimited_array[] = $field_value . $column_separators[$index];
                     }
                     return implode($delimited_array);
                 };
 
-                $output_row[$destination_column] = $array_reduce($filtered_row, $column_separators);
+                $output_row[$destination_column] = $array_reduce($filtered_row, $column_separators, $column_strippers);
             }
 
             $this->processed_content[] = $output_row;

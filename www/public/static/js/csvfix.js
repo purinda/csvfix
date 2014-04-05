@@ -220,8 +220,8 @@ Mapping = {
         var $column_tr  = $('<tr>' +
                             '<td>' + column_display_name + '</td>' +
                             '<td><input data-name="column[][' + column_name +']" type="hidden" value="' + column_name + '"></td>' +
+                            '<td>' + '<div class="col-sm-11 no-padding"><input data-name="column_stripper[][' + column_name +']" type="text" class="form-control input-sm"></div>' + '</td>' +
                             '<td>' + '<div class="col-sm-11 no-padding"><input data-name="column_separator[][' + column_name +']" type="text" class="form-control input-sm"></div>' + '</td>' +
-                            // '<td>' + '<div class="col-sm-11 no-padding"><input data-name="column_stripper[][' + column_name +']" type="text" class="form-control input-sm"></div>' + '</td>' +
                             '<td>' + '<button type="button" class="btn btn-danger btn-xs btn-remove-column"> <span class="glyphicon glyphicon-remove"></span> Remove</button>' + '</td>' +
                             '</tr>');
 
@@ -278,6 +278,21 @@ MappingGroup = {
 
         // Add the very first column group to start off with...
         MappingGroup.addGroup(null);
+
+        // Trim info tooltip
+        $('th.tooltip-trim').tooltip({
+            animation: true,
+            html: true,
+            placement: 'bottom',
+            title: 'Remove letters or words that you don\'t need in the output spreadsheet. <br><i>Ex: remove all brackets from a Phone number column, type "(,)" without quotes. </i>'
+        });
+
+        $('th.tooltip-suffix').tooltip({
+            animation: true,
+            html: true,
+            placement: 'bottom',
+            title: 'A letter or a word that you may want in the end of column you set a suffix but before the next one. <br><i>Ex: Concatanate first name and last name with a space.</i>'
+        });
     },
 
     getClosestColumnGroupIndex: function(element) {
@@ -292,7 +307,6 @@ MappingGroup = {
             $('form.merge-column-group').append(merge_column_container);
         } else {
             element.parents('div.merge-column-container').after(merge_column_container).promise().done(function() {
-
                 // Scroll to view the newly added column group
                 $('html,body').animate({scrollTop: merge_column_container.offset().top}, 500);
             });
@@ -394,7 +408,7 @@ Exporter = {
         var jq_column_groups_container = $('form.merge-column-group');
         var merge_column_containers = jq_column_groups_container.children('div.merge-column-container');
 
-        jq_column_groups_containers.each(function(i, merge_column_container) {
+        merge_column_containers.each(function(i, merge_column_container) {
             $(merge_column_container).find('*[data-name]').each(function(j, element) {
                 var jq_element          = $(element);
                 var el_name             = jq_element.data('name');
@@ -407,7 +421,7 @@ Exporter = {
             var json_encoded = jq_column_groups_container.serializeObject();
 
             // Simple validation to see of output CSV fields are not the same
-            if ($.unique(json_encoded.merge_field).length < jq_column_groups_containers.length) {
+            if ($.unique(json_encoded.merge_field).length < merge_column_containers.length) {
                 alert('Hmm... found a little problem with your output fields, there seems to be more than one field with the same name. Columns in CSV files should be unique :)');
                 return false;
             }
@@ -419,8 +433,12 @@ Exporter = {
                 url: Exporter.options.url_export + Exporter.options.file_id + '/' + type,
                 data: json_encoded,
                 success: function(data) {
-                    var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data, '_blank');
-                    win.focus();
+                    if (data.status === true) {
+                        var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data, '_blank');
+                        win.focus();
+                    } else {
+                        alert(data.message);
+                    }
                 },
                 dataType: 'json'
             });

@@ -41,4 +41,8 @@ class SavedSession extends Eloquent{
     public function getColumnSeparators($index) {
         return $this->unserialised_mappings['column_separators'][$index];
     }
+
+    public function getColumnStrippers($index) {
+        return $this->unserialised_mappings['column_stripper'][$index];
+    }
 }

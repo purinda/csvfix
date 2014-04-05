@@ -2,13 +2,13 @@
 <div class="panel panel-default merge-column-container">
   <div class="panel-heading">
     <b class="panel-title">
-      Column
+      Map Columns
     </b>
   </div>
   <div class="panel-body">
     <div class="form-horizontal" role="form">
       <div class="form-group">
-        <label class="col-sm-2 control-label">Column Name</label>
+        <label class="col-sm-2 control-label">Output column name</label>
         <div class="col-sm-5">
           <div class="input-group">
             <input data-name="merge_field[]" type="email" class="form-control input-sm" placeholder="Full name, etc" value="{{ $merge_field }}">
@@ -30,10 +30,10 @@
       <table class="table table-condensed table-hover no-padding columns-container">
         <thead>
           <tr>
-            <th style="width: 70%;">Column</th>
+            <th style="width: 70%;">Source column name</th>
             <th style="width: auto;"></th>
-            <!-- <th style="width: 150px;">Remove Characters</th> -->
-            <th style="width: 150px;">Separator</th>
+            <th style="width: 150px;" class="tooltip-trim">Trim</span></th>
+            <th style="width: 150px;" class="tooltip-suffix">Suffix</th>
             <th style="width: 100px;">Action</th>
           </tr>
         </thead>

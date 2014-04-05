@@ -75,6 +75,7 @@ class CSVProcessController extends BaseController {
         $merge_fields      = Input::get('merge_field');
         $columns           = Input::get('column');
         $column_separators = Input::get('column_separator');
+        $column_strippers  = Input::get('column_stripper');
 
         // TODO: May not required?
         if ($limit == null || $limit == 'null') {
@@ -85,7 +86,7 @@ class CSVProcessController extends BaseController {
 
         $field_mapper = new FieldMapper($file);
         $field_mapper->loadContent();
-        if (!$field_mapper->setColumns($merge_fields, $columns, $column_separators)) {
+        if (!$field_mapper->setColumns($merge_fields, $columns, $column_separators, $column_strippers)) {
             return false;
         }
 
@@ -112,19 +113,29 @@ class CSVProcessController extends BaseController {
             ->setKeywords('')
             ->setCategory('');
 
+        $response = array(
+            'status'  => true,
+            'message' => 'Successfully processed.'
+        );
 
-        $excel_writer = PHPExcel_IOFactory::createWriter($php_excel, UserFile::getClassType($type));
+        $excel_writer = PHPExcel_IOFactory::createWriter($php_excel, $file->getClassType($type));
         $rows         = $this->export($file_id, 100000, TRUE);
-        $headers      = array_keys(reset($rows));
+        if (!empty($rows)) {
+            $headers = array_keys(reset($rows));
 
-        // NOTE: Excel sheets gotta start with 1 not 0 (ex A1)
-        $php_excel->setActiveSheetIndex(0)->fromArray($headers, NULL, 'A1');
-        foreach ($rows as $index => $row) {
-            $php_excel->setActiveSheetIndex(0)->fromArray($row, NULL, 'A' . (int)($index + 2));
+            // NOTE: Excel sheets gotta start with 1 not 0 (ex A1)
+            $php_excel->setActiveSheetIndex(0)->fromArray($headers, NULL, 'A1');
+            foreach ($rows as $index => $row) {
+                $php_excel->setActiveSheetIndex(0)->fromArray($row, NULL, 'A' . (int)($index + 2));
+            }
+
+            $excel_writer->save($file->getFilePathOutput($type));
+        } else {
+            $response['status']  = false;
+            $response['message'] = 'You may haven\'t entered names for output columns or haven\'t mapped any columns from source file to output columns at all';
         }
 
-        $excel_writer->save($file->getFilePathOutput($type));
-        return Response::json($type);
+        return Response::json($response);
     }
 
     public function downloadFile($file_id, $type) {
