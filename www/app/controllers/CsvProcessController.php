@@ -130,6 +130,7 @@ class CSVProcessController extends BaseController {
             }
 
             $excel_writer->save($file->getFilePathOutput($type));
+            $response['filetype']  = $type;
         } else {
             $response['status']  = false;
             $response['message'] = 'You may haven\'t entered names for output columns or haven\'t mapped any columns from source file to output columns at all';

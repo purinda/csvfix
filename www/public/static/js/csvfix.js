@@ -382,11 +382,10 @@ Exporter = {
     initialise: function() {
 
         // Export
-        $('nav a.export-type').on('click', function(e) {
+        $('a.export-type').on('click', function(e) {
             e.preventDefault();
 
             // Set the export type
-
             Exporter.process($(e.target).data('type'));
         });
 
@@ -434,7 +433,7 @@ Exporter = {
                 data: json_encoded,
                 success: function(data) {
                     if (data.status === true) {
-                        var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data, '_blank');
+                        var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data.filetype, '_blank');
                         win.focus();
                     } else {
                         alert(data.message);

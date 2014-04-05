@@ -63,7 +63,7 @@
   </div>
 
   <div class="panel-footer">
-    Use "Add" button to put another column into the export CSV or use "Remove" to take out this column.
+    Use "Add" button to put another column into the export spreadsheet or use "Remove" to take out this column.
     <div class="btn-group pull-right">
       <button class="btn btn-success btn-sm btn-add-group-mapping"><span class="glyphicon glyphicon-plus"></span> Add</button>
       <button class="btn btn-danger btn-sm btn-remove-group-mapping"><span class="glyphicon glyphicon-remove"></span> Remove</button>
@@ -149,7 +149,16 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default">Export</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Export As <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right" role="menu">
+            <li><a href="#" class="export-type" data-type="CSV">CSV</a></li>
+            <li><a href="#" class="export-type" data-type="XLS">Microsoft Excel 2000 (.XLS) </a></li>
+            <li><a href="#" class="export-type" data-type="XLSX">Microsoft Excel 2010 (.XLSX) </a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
