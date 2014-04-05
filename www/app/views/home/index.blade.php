@@ -8,7 +8,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-offset-3 col-6 col-sm-6 col-lg-4 center">
+    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-sm-offset-3 col-6 col-sm-6 center">
       <h2>Upload Here</h2>
       <p>Upload your CSV/Excel file here</p>
       <form enctype="multipart/form-data" method="post" action="upload">
