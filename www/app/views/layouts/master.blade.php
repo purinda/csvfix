@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
 
   <title>CSV Solutions - {{{ $page_title }}}</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="Map, Merge and Transform your spreadsheet (excel, csv) to the template you prefer. Convert mapped spreadsheet to Excel and CSV formats.">
+  <meta name="keywords" content="merge spreadsheet, map spreadsheet, map csv, merge csv, merge columns, template mapping, template csv mapping">
+  <meta name="author" content="Purinda Gunasekara">
 
   <!-- CSS (Disabled Local CSS) -->
   <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/static/css/jquery.datatables.css" type="text/css" media="screen" />
-  <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css" type="text/css" media="screen" /> -->
 
   <!-- Custom Theme  -->
   <link rel="stylesheet" href="http://bootswatch.com/simplex/bootstrap.min.css" type="text/css" media="screen" />
