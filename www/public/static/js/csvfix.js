@@ -517,6 +517,11 @@ $(document).ready(function() {
         $('div#mappings-list-dialog').on('click', 'button.btn-open-mapping', function(evt) {
             alert('Please upload a file first. Then you can apply existing mappings and manipulate fields.');
         });
+
+        // Trigger click on the File browse button when user clicks on the <i> glyph
+        $('div.row i.glyphicon').on('click', function() {
+            $("#file-browse").trigger('click');
+        });
     }
 
 });

@@ -109,14 +109,16 @@ div.btn-column-group {
   position: relative;
   overflow: hidden;
 }
+
 .btn-file input[type=file] {
-  position: absolute;
+  position: relative;
   top: 0;
   right: 0;
+  width: 100px;
+  height: 10px;
   min-width: 100%;
   min-height: 100%;
-  font-size: 999px;
-  text-align: right;
+  text-align: center;
   filter: alpha(opacity=0);
   opacity: 0;
   outline: none;
@@ -125,6 +127,13 @@ div.btn-column-group {
   display: block;
 }
 
+.btn-file > i {
+    font-size: 30px;
+}
+
+.center {
+    text-align: center;
+}
 /*
  * Bootstrap Data Table CSS - Start
  */
