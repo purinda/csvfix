@@ -133,7 +133,7 @@ class CSVProcessController extends BaseController {
             $response['filetype']  = $type;
         } else {
             $response['status']  = false;
-            $response['message'] = 'You may haven\'t entered names for output columns or haven\'t mapped any columns from source file to output columns at all';
+            $response['message'] = "Sorryyy... \n* You may have left an output column name blank. \n* haven't mapped columns from source file to one of the output columns you introduced.";
         }
 
         return Response::json($response);

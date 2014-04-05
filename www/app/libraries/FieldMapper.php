@@ -53,7 +53,7 @@ class FieldMapper{
         // Little bit of validation before accepting all inputs.
         // 1. Check if the output columns have assigned source columns
         // 2. Check if output column names are not empty.
-        $success = count((array_diff_key($output_fields, $columns)) == 0);
+        $success = count(array_diff_key($output_fields, $columns)) === 0;
         foreach ($columns as $value) {
             if (!is_array($value)) {
                 $success = false;
