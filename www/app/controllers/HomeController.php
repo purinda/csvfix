@@ -11,7 +11,7 @@ class HomeController extends BaseController {
 	{
         $view_data = array(
             'page_title' => 'Home',
-            'copyright'  => 'Purinda Gunasekara',
+            'copyright'  => '<a href="http://theredblacktree.wordpress.com" target="_blank">Copyright (C) 2014 Purinda Gunasekara</a>',
         );
 
         return View::make('home/index')->with($view_data);
@@ -47,7 +47,7 @@ class HomeController extends BaseController {
     public function resources() {
         $view_data = array(
             'page_title' => 'Resources',
-            'copyright'  => 'Purinda Gunasekara',
+            'copyright'  => '<a href="http://theredblacktree.wordpress.com" target="_blank">Copyright (C) 2014 Purinda Gunasekara</a>',
         );
 
         return View::make('home/resources')->with($view_data);

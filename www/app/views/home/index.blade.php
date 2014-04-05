@@ -54,7 +54,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
   <div class="container">
     <ul class="nav navbar-nav ">
-       <li><a>Copyright (C) 2014 {{ $copyright }}</a></li>
+       <li>{{ $copyright }}</li>
     </ul>
   </div>
 </nav>
