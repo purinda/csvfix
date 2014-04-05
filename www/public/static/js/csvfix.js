@@ -280,18 +280,18 @@ MappingGroup = {
         MappingGroup.addGroup(null);
 
         // Trim info tooltip
-        $('th.tooltip-trim').tooltip({
+        $('span.tooltip-trim').tooltip({
             animation: true,
             html: true,
             placement: 'bottom',
-            title: 'Remove letters or words that you don\'t need in the output spreadsheet. <br><i>Ex: remove all brackets from a Phone number column, type "(,)" without quotes. </i>'
+            title: 'Remove letters or words that you don\'t need in the output spreadsheet. <br><br>Ex: remove all brackets from a Phone number column, type "(,)" without quotes.'
         });
 
-        $('th.tooltip-suffix').tooltip({
+        $('span.tooltip-suffix').tooltip({
             animation: true,
             html: true,
             placement: 'bottom',
-            title: 'A letter or a word that you may want in the end of column you set a suffix but before the next one. <br><i>Ex: Concatanate first name and last name with a space.</i>'
+            title: 'A letter or a word that you may want in the end of column you set a suffix but before the next one. <br><br>Ex: Concatanate first name and last name with a space.'
         });
     },
 

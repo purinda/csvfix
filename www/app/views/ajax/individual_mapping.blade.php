@@ -32,8 +32,8 @@
           <tr>
             <th style="width: 70%;">Source column name</th>
             <th style="width: auto;"></th>
-            <th style="width: 150px;" class="tooltip-trim">Trim</span></th>
-            <th style="width: 150px;" class="tooltip-suffix">Suffix</th>
+            <th style="width: 150px;">Trim <span class="glyphicon glyphicon-question-sign tooltip-trim">&nbsp;</span></th>
+            <th style="width: 150px;">Suffix <span class="glyphicon glyphicon-question-sign tooltip-suffix">&nbsp;</span></th>
             <th style="width: 100px;">Action</th>
           </tr>
         </thead>

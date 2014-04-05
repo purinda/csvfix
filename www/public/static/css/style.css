@@ -38,6 +38,13 @@ div.btn-column-group {
 }
 
 /**
+ * Align text inside a tooltip box is left
+ */
+.tooltip-inner {
+    text-align:left !important;
+}
+
+/**
  * This enables submenus in button dropdowns.
  * http://www.bootply.com/86684
  */
