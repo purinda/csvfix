@@ -13,11 +13,35 @@ class UserFile extends Eloquent{
     protected $table = 'files';
     protected $php_excel = null;
 
+    public static $acceptable_mimes = array(
+
+        // CSV
+        'text/csv',
+        'text/plain',
+        'application/csv',
+        'text/comma-separated-values',
+        'application/excel',
+        'application/vnd.ms-excel',
+        'application/vnd.msexcel',
+        'text/anytext',
+        'application/octet-stream',
+        'application/txt',
+
+        // Excel
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel',
+    );
     /**
      * Uploded file should be passed in
      * @return [type] [description]
      */
     public function setUploadedFileProperties($file) {
+
+        // Validate mimetype
+        if (!in_array($file->getMimeType(), self::$acceptable_mimes)) {
+            return false;
+        }
+
         $destination_path = public_path() . '/storage/uploads/' . Session::getId();
         $this->directory  = $destination_path;
         $this->file_name  = $file->getClientOriginalName();

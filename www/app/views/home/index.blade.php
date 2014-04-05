@@ -8,12 +8,21 @@
   </div>
 
   <div class="row">
-    <div class="col-md-offset-4 col-6 col-sm-6 col-lg-4 center">
+    <div class="col-md-offset-3 col-6 col-sm-6 col-lg-4 center">
       <h2>Upload Here</h2>
       <p>Upload your CSV/Excel file here</p>
       <form enctype="multipart/form-data" method="post" action="upload">
         <span class="btn btn-primary btn-file"> <i class="glyphicon glyphicon-cloud-upload"> </i> <input onchange="javascript:this.form.submit();" type="file" id="file-browse" name="file"> </span>
       </form>
+      @if(Session::get('success') === false)
+      <br>
+      <div class="alert alert-danger left">
+        File you uploaded can not be interpreted as a spreadsheet for following reasons. <br>
+        <p>1. File is not a spreadsheet at all, we only accept CSV and Excel files without pictures.</p>
+        <p>2. There may not be any data in the first worksheet.</p>
+        <p>3. There may not column headings defined in the worksheet.</p>
+      </div>
+      @endif
     </div>
   </div>
 

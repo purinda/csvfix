@@ -18,7 +18,8 @@ class HomeController extends BaseController {
 	}
 
     public function upload() {
-        $file = null;
+        $file      = null;
+        $view_data = array('success' => false);
 
         if (Input::hasFile('file')) {
 
@@ -26,12 +27,21 @@ class HomeController extends BaseController {
             $file   = new UserFile;
             $status = $file->setUploadedFileProperties(Input::file('file'));
 
+            if (empty($status)) {
+                return Redirect::to('/')->with($view_data);
+            }
+
             // Save file details
             $file->save();
+
+            return Redirect::to('/view/' . $file->id);
         }
 
-        // flash data redirect
-        return Redirect::to('/view/' . $file->id);
+        if (!Input::hasFile('file')) {
+            // flash data redirect
+            return Redirect::to('/')->with($view_data);
+        }
+
     }
 
     public function resources() {

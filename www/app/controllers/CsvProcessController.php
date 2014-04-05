@@ -14,8 +14,20 @@ class CSVProcessController extends BaseController {
             return Redirect::action('HomeController@showWelcome');
         }
 
-        $file      = UserFile::find($file_id);
-        $columns   = $file->getFields();
+        $file = UserFile::find($file_id);
+
+        // Validate whether the file heading are readble
+        // if not redirect back to the home page.
+        // TODO: may not be the best place for validation.
+        // move to UserFle class and create a validation method
+        // too lazy now...
+        try {
+            $columns = $file->getFields();
+        } catch (ErrorException $e) {
+
+            $view_data = array('success' => false);
+            return Redirect::to('/')->with($view_data);
+        }
 
         // Split columns based on first letter
         $columns_view = array();
@@ -133,7 +145,7 @@ class CSVProcessController extends BaseController {
             $response['filetype']  = $type;
         } else {
             $response['status']  = false;
-            $response['message'] = "Sorryyy... \n* You may have left an output column name blank. \n* haven't mapped columns from source file to one of the output columns you introduced.";
+            $response['message'] = "Something went wrong... \n* You may have left an output column name blank. \n* haven't mapped columns from source file to one of the output columns you introduced.";
         }
 
         return Response::json($response);

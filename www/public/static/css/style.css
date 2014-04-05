@@ -134,6 +134,10 @@ div.btn-column-group {
 .center {
     text-align: center;
 }
+
+.left {
+    text-align: left;
+}
 /*
  * Bootstrap Data Table CSS - Start
  */

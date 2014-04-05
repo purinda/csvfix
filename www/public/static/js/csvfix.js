@@ -530,7 +530,7 @@ $(document).ready(function() {
         });
 
         // Trigger click on the File browse button when user clicks on the <i> glyph
-        $('div.row i.glyphicon').on('click', function() {
+        $('div.row i.glyphicon').on('click', function(evt) {
             $("#file-browse").trigger('click');
         });
     }
