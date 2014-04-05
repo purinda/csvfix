@@ -69,6 +69,7 @@ class UserManagement extends BaseController {
             'merge_fields'      => Input::get('merge_field'),
             'columns'           => Input::get('column'),
             'column_separators' => Input::get('column_separator'),
+            'column_strippers'  => Input::get('column_stripper'),
         );
 
         $serialized_mappings     = serialize($mappings);

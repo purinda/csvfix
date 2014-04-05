@@ -42,7 +42,8 @@
             <tr>
                 <td>{{ $column }}</td>
                 <td><input data-name="column[][{{$column}}]" type="hidden" value="{{$column}}"></td>
-                <td><div class="col-sm-11 no-padding"><input data-name="column_separator[][{{$column}}]" type="text" class="form-control input-sm"></div></td>
+                <td><div class="col-sm-11 no-padding"><input data-name="column_stripper[][{{ $column }}]" value="{{ $session->getColumnStrippers($i)[$column] }}" type="text" class="form-control input-sm"></div></td>
+                <td><div class="col-sm-11 no-padding"><input data-name="column_separator[][{{ $column }}]" value="{{ $session->getColumnSeparators($i)[$column] }}" type="text" class="form-control input-sm"></div></td>
                 <td><button type="button" class="btn btn-danger btn-xs btn-remove-column"> <span class="glyphicon glyphicon-remove"></span> Remove</button></td>
             </tr>
             @endforeach

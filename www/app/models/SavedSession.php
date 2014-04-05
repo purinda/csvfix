@@ -35,14 +35,26 @@ class SavedSession extends Eloquent{
     }
 
     public function getColumns($index) {
-        return $this->unserialised_mappings['columns'][$index];
+        if (isset($this->unserialised_mappings['columns'][$index])) {
+            return $this->unserialised_mappings['columns'][$index];
+        }
+
+        return array();
     }
 
     public function getColumnSeparators($index) {
-        return $this->unserialised_mappings['column_separators'][$index];
+        if ($this->unserialised_mappings['column_separators'][$index]) {
+            return $this->unserialised_mappings['column_separators'][$index];
+        }
+
+        return array();
     }
 
     public function getColumnStrippers($index) {
-        return $this->unserialised_mappings['column_stripper'][$index];
+        if ($this->unserialised_mappings['column_strippers'][$index]) {
+            return $this->unserialised_mappings['column_strippers'][$index];
+        }
+
+        return array();
     }
 }

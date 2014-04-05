@@ -326,8 +326,19 @@ MappingGroup = {
             cache: false,
             url: MappingGroup.options.url_get_mapping + mapping_id,
             success: function(html) {
-                $('form.merge-column-group').empty();
-                $('form.merge-column-group').append(html);
+                var merge_column_container = $('form.merge-column-group');
+                merge_column_container.empty();
+                merge_column_container.append(html);
+
+                $('#mappings-list-dialog div.modal-body').html('<div class="alert alert-success">Mappings loaded...</div>')
+                    .delay(3000)
+                    .promise()
+                    .done( function() {
+                        var bootstrap_modal = $('#mappings-list-dialog');
+                        bootstrap_modal.modal('hide');
+                    }
+                );
+
             },
             dataType: 'html'
         });
@@ -515,7 +526,7 @@ $(document).ready(function() {
 
         // An exception, TODO: Clean this up later..
         $('div#mappings-list-dialog').on('click', 'button.btn-open-mapping', function(evt) {
-            alert('Please upload a file first. Then you can apply existing mappings and manipulate fields.');
+            alert('Please upload a file first. Then open saved mapping on to the file and manipulate fields.');
         });
 
         // Trigger click on the File browse button when user clicks on the <i> glyph
