@@ -114,7 +114,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
   <div class="container">
     <ul class="nav navbar-nav navbar-right">
-      <li><a data-toggle="modal" id="btn-preview-table" data-target="#preview-table"><span class="glyphicon glyphicon-eye-open"></span> Preview</a> </li>
+      <li><a href="#" data-toggle="modal" id="btn-preview-table" data-target="#preview-table"><span class="glyphicon glyphicon-eye-open"></span> Preview</a> </li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <span class="glyphicon glyphicon-export"></span>

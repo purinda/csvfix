@@ -397,7 +397,7 @@ Exporter = {
             e.preventDefault();
 
             // Set the export type
-            Exporter.process($(e.target).data('type'));
+            Exporter.process($(this).data('type'));
         });
 
         // Preview
