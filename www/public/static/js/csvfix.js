@@ -255,7 +255,7 @@ MappingGroup = {
 
         // Remove group
         $(document.body).on('click', 'button.btn-remove-group-mapping, button.btn-remove-group-mapping > span ', function(e) {
-
+            e.preventDefault();
             var element = $(e.target);
             MappingGroup.removeGroup(element);
         });
@@ -316,7 +316,11 @@ MappingGroup = {
 
     // Remove merge/map column group
     removeGroup: function(element) {
-        element.parents('div.merge-column-container').remove();
+        if (element.closest('form.merge-column-group').find('div.merge-column-container').length == 1) {
+            alert('You can\'t remove the last column mapping. Remove source column if you wish to ignore this');
+        } else {
+            element.parents('div.merge-column-container').remove();
+        }
     },
 
     loadMapping: function(mapping_id) {
