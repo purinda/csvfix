@@ -25,6 +25,7 @@
 
   <!-- Globals -->
   <script type="text/javascript">
+      window.BaseUrl = "{{ URL::to('/') }}";
       var Auth = {};
     @if(Auth::check())
       Auth.Check = true;

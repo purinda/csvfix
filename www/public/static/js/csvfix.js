@@ -1,9 +1,9 @@
 UserManagement = {
     options: {
-        url_register      : '/auth/register',
-        url_signin        : '/auth/signin',
-        url_logout        : '/auth/logout',
-        url_list_mappings : '/user/show_mappings'
+        url_register      : window.BaseUrl + '/auth/register',
+        url_signin        : window.BaseUrl + '/auth/signin',
+        url_logout        : window.BaseUrl + '/auth/logout',
+        url_list_mappings : window.BaseUrl + '/user/show_mappings'
     },
 
     initialise: function() {
@@ -184,7 +184,7 @@ DataGrid = {
             "sScrollX": "100%",
             "bAutoWidth": true,
             "sPaginationType": 'bs_full',
-            "sAjaxSource": '/view/get_file_content/' + file_id,
+            "sAjaxSource": window.BaseUrl + '/view/get_file_content/' + file_id,
         });
     }
 };
@@ -239,8 +239,8 @@ Mapping = {
 
 MappingGroup = {
     options: {
-        url_save_mappings : '/user/save_mappings',
-        url_get_mapping   : '/user/get_mapping/'
+        url_save_mappings : window.BaseUrl + '/user/save_mappings',
+        url_get_mapping   : window.BaseUrl + '/user/get_mapping/'
     },
 
     initialise: function() {
@@ -383,10 +383,10 @@ MappingGroup = {
 
 Exporter = {
     options: {
-        url_process  : '/process/merge_fields/',
-        url_export   : '/process/export/',
-        url_download : '/process/download/',
-        url_preview  : '/process/preview/',
+        url_process  : window.BaseUrl + '/process/merge_fields/',
+        url_export   : window.BaseUrl + '/process/export/',
+        url_download : window.BaseUrl + '/process/download/',
+        url_preview  : window.BaseUrl + '/process/preview/',
         file_id      : null
     },
 
