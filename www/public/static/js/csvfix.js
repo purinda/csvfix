@@ -1,9 +1,9 @@
 UserManagement = {
     options: {
-        url_register      : '/auth/register',
-        url_signin        : '/auth/signin',
-        url_logout        : '/auth/logout',
-        url_list_mappings : '/user/show_mappings'
+        url_register      : window.BaseUrl + '/auth/register',
+        url_signin        : window.BaseUrl + '/auth/signin',
+        url_logout        : window.BaseUrl + '/auth/logout',
+        url_list_mappings : window.BaseUrl + '/user/show_mappings'
     },
 
     initialise: function() {
@@ -184,7 +184,7 @@ DataGrid = {
             "sScrollX": "100%",
             "bAutoWidth": true,
             "sPaginationType": 'bs_full',
-            "sAjaxSource": '/view/get_file_content/' + file_id,
+            "sAjaxSource": window.BaseUrl + '/view/get_file_content/' + file_id,
         });
     }
 };
@@ -239,8 +239,8 @@ Mapping = {
 
 MappingGroup = {
     options: {
-        url_save_mappings : '/user/save_mappings',
-        url_get_mapping   : '/user/get_mapping/'
+        url_save_mappings : window.BaseUrl + '/user/save_mappings',
+        url_get_mapping   : window.BaseUrl + '/user/get_mapping/'
     },
 
     initialise: function() {
@@ -255,7 +255,7 @@ MappingGroup = {
 
         // Remove group
         $(document.body).on('click', 'button.btn-remove-group-mapping, button.btn-remove-group-mapping > span ', function(e) {
-
+            e.preventDefault();
             var element = $(e.target);
             MappingGroup.removeGroup(element);
         });
@@ -316,7 +316,11 @@ MappingGroup = {
 
     // Remove merge/map column group
     removeGroup: function(element) {
-        element.parents('div.merge-column-container').remove();
+        if (element.closest('form.merge-column-group').find('div.merge-column-container').length == 1) {
+            alert('You can\'t remove the last column mapping. Remove source column if you wish to ignore this');
+        } else {
+            element.parents('div.merge-column-container').remove();
+        }
     },
 
     loadMapping: function(mapping_id) {
@@ -383,10 +387,10 @@ MappingGroup = {
 
 Exporter = {
     options: {
-        url_process  : '/process/merge_fields/',
-        url_export   : '/process/export/',
-        url_download : '/process/download/',
-        url_preview  : '/process/preview/',
+        url_process  : window.BaseUrl + '/process/merge_fields/',
+        url_export   : window.BaseUrl + '/process/export/',
+        url_download : window.BaseUrl + '/process/download/',
+        url_preview  : window.BaseUrl + '/process/preview/',
         file_id      : null
     },
 
@@ -397,7 +401,7 @@ Exporter = {
             e.preventDefault();
 
             // Set the export type
-            Exporter.process($(e.target).data('type'));
+            Exporter.process($(this).data('type'));
         });
 
         // Preview
@@ -483,6 +487,9 @@ Exporter = {
             }
 
             // Process serialised form data via server side
+            console.log(Exporter.options.url_preview);
+            console.log(Exporter.options.file_id);
+
             $.ajax({
                 type: "POST",
                 cache: false,

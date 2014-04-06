@@ -9,22 +9,15 @@
   <meta name="author" content="Purinda Gunasekara">
 
   <!-- CSS (Disabled Local CSS) -->
-  <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="/static/css/jquery.datatables.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{{ URL::to('static/css/style.css') }}" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{{ URL::to('static/css/jquery.datatables.css') }}" type="text/css" media="screen" />
 
   <!-- Custom Theme  -->
-  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" />
-
-  <!-- Javascripts -->
-  <script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.datatables.min.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.datatables.js"></script>
-  <script type="text/javascript" src="/static/js/jquery.serializeobject.js"></script>
-  <script type="text/javascript" src="/static/js/csvfix.js"></script>
+  <link rel="stylesheet" href="{{ URL::to('static/bootstrap/css/bootstrap.min.css') }}" type="text/css" media="screen" />
 
   <!-- Globals -->
   <script type="text/javascript">
+      window.BaseUrl = "{{ URL::to('/') }}";
       var Auth = {};
     @if(Auth::check())
       Auth.Check = true;
@@ -32,6 +25,14 @@
       Auth.Check = false;
     @endif
   </script>
+
+  <!-- Javascripts -->
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery-2.1.0.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/bootstrap/js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.serializeobject.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/csvfix.js') }}"></script>
 </head>
 <body>
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,8 +69,8 @@
           @endif
             <ul class="dropdown-menu">
               @if(!Auth::check())
-              <li><a data-toggle="modal" data-target="#sign-in-dialog"><span class="glyphicon glyphicon-pencil"></span> Sign In</a></li>
-              <li><a data-toggle="modal" data-target="#registration-dialog"><span class="glyphicon glyphicon-hand-up"></span> Register</a> </li>
+              <li><a href="#" data-toggle="modal" data-target="#sign-in-dialog"><span class="glyphicon glyphicon-pencil"></span> Sign In</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#registration-dialog"><span class="glyphicon glyphicon-hand-up"></span> Register</a> </li>
               @else
               <li><a href="#" class="btn-logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
               <li class="divider"></li>
