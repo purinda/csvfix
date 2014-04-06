@@ -20,6 +20,7 @@ Route::post('/upload',                      array('uses' => 'HomeController@uplo
 Route::post('/auth/register',               array('uses' => 'UserManagement@register'));
 Route::post('/auth/signin',                 array('uses' => 'UserManagement@signin'));
 Route::post('/user/save_mappings',          array('uses' => 'UserManagement@saveMappings'));
+Route::post('/user/delete_mappings',        array('uses' => 'UserManagement@deleteMapping'));
 Route::get('/user/show_mappings',           array('uses' => 'UserManagement@showMappings'));
 Route::get('/user/get_mapping/{id}',        array('uses' => 'UserManagement@getMapping'));
 Route::get('/auth/signin/{id}',             array('uses' => 'UserManagement@signin'));

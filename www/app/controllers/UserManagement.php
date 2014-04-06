@@ -80,6 +80,13 @@ class UserManagement extends BaseController {
         return $saved_session->id;
     }
 
+    public function deleteMapping() {
+        $saved_session = SavedSession::find(Input::get('mapping_id'));
+        $saved_session->delete();
+
+        return Response::json(true);
+    }
+
     public function showMappings() {
         if (!Auth::check()) {
             return Response::json('AUTH_FAIL');

@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
+      <th>Note</th>
       <th>Added on</th>
       <th></th>
     </tr>
@@ -21,5 +21,11 @@
         </td>
       </tr>
       @endforeach
+
+      @if (empty($sessions))
+      <tr>
+        <td colspan="4">No saved mappings found.</td>
+      </tr>
+      @endif
   </tbody>
 </table>

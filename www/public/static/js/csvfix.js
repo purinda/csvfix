@@ -153,7 +153,14 @@ UserManagement = {
             },
             success: function(data) {
                 if (data === true) {
-                    location.reload();
+                    msg_area
+                        .empty()
+                        .html('<div class="alert alert-success">Welcome back, please wait while we log you in...</div>')
+                        .delay(3000)
+                        .promise()
+                        .done( function() {
+                            location.reload();
+                        });
                 } else {
                     msg_area
                         .empty()
@@ -239,8 +246,9 @@ Mapping = {
 
 MappingGroup = {
     options: {
-        url_save_mappings : window.BaseUrl + '/user/save_mappings',
-        url_get_mapping   : window.BaseUrl + '/user/get_mapping/'
+        url_save_mappings   : window.BaseUrl + '/user/save_mappings',
+        url_delete_mappings : window.BaseUrl + '/user/delete_mappings',
+        url_get_mapping     : window.BaseUrl + '/user/get_mapping/'
     },
 
     initialise: function() {
@@ -274,6 +282,11 @@ MappingGroup = {
 
             var btn_open = $(evt.target);
             MappingGroup.loadMapping(btn_open.data('id'));
+        });
+
+        $('div#mappings-list-dialog').on('click', 'button.btn-erase-mapping', function(evt) {
+            var btn_erase = $(evt.target);
+            MappingGroup.eraseMapping(btn_erase);
         });
 
         // Add the very first column group to start off with...
@@ -345,6 +358,27 @@ MappingGroup = {
 
             },
             dataType: 'html'
+        });
+    },
+
+    eraseMapping: function(button) {
+        if (confirm('Really wanna delete?') == false) {
+            return false;
+        }
+
+        // Make delete request
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: MappingGroup.options.url_delete_mappings,
+            data: {
+                'mapping_id' : button.data('id')
+            },
+            success: function(data) {
+                button.parents('tr').remove();
+                alert('Mapping deleted.');
+            },
+            dataType: 'json'
         });
     },
 
