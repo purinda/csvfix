@@ -136,7 +136,7 @@ class UserFile extends Eloquent{
         $info             = new SplFileInfo($this->getFilePath());
         $name_without_ext = $info->getBaseName('.' . $info->getExtension());
 
-        return $this->directory . '/' . $name_without_ext . ' ' . date("Ymd His") . '.' . strtolower($type);
+        return $this->directory . '/' . $name_without_ext . '.' . strtolower($type);
     }
 
     /**

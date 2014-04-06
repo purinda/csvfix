@@ -121,15 +121,15 @@
           Export As <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="export-type" data-type="CSV">CSV</a></li>
-          <li><a href="#" class="export-type" data-type="XLS">Microsoft Excel 2000 (.XLS) </a></li>
-          <li><a href="#" class="export-type" data-type="XLSX">Microsoft Excel 2010 (.XLSX) </a></li>
+          <li><a href="#" data-toggle="modal" data-target="#export-dialog" class="export-type" data-type="CSV">CSV</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#export-dialog" class="export-type" data-type="XLS">Microsoft Excel 2000 (.XLS) </a></li>
+          <li><a href="#" data-toggle="modal" data-target="#export-dialog" class="export-type" data-type="XLSX">Microsoft Excel 2010 (.XLSX) </a></li>
         </ul>
       </li>
     </ul>
 
     <ul class="nav navbar-nav navbar-left">
-      <li><a href="#" data-toggle="modal" id="btn-save-dialog" data-target="#save-dialog"><span class="glyphicon glyphicon-floppy-disk"></span> Save</a>
+      <li><a href="#" data-toggle="modal" data-target="#save-dialog" id="btn-save-dialog"><span class="glyphicon glyphicon-floppy-disk"></span> Save</a>
     </ul>
   </div>
 </nav>
@@ -148,17 +148,7 @@
         <div class="loader">Processing...</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Export As <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="#" class="export-type" data-type="CSV">CSV</a></li>
-            <li><a href="#" class="export-type" data-type="XLS">Microsoft Excel 2000 (.XLS) </a></li>
-            <li><a href="#" class="export-type" data-type="XLSX">Microsoft Excel 2010 (.XLSX) </a></li>
-          </ul>
-        </div>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -191,10 +181,28 @@
       @endif
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       @if(Auth::check())
         <button type="button" class="btn btn-default btn-save-mappings">Save</button>
       @endif
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Export dialog -->
+<div class="modal fade" id="export-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Export</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

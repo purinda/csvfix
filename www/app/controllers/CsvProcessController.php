@@ -143,9 +143,17 @@ class CSVProcessController extends BaseController {
 
             $excel_writer->save($file->getFilePathOutput($type));
             $response['filetype']  = $type;
+
         } else {
+
             $response['status']  = false;
-            $response['message'] = "Something went wrong... \n* You may have left an output column name blank. \n* haven't mapped columns from source file to one of the output columns you introduced.";
+            $response['message'] =<<<TXT
+            <strong>May be a problem with columns?</strong>
+            <ul>
+                <li>You may have left an output column name blank. </li>
+                <li>haven't mapped column or columns from source the input file to one of the output columns you introduced.</li>
+            </ul>
+TXT;
         }
 
         return Response::json($response);

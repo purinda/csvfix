@@ -347,7 +347,8 @@ MappingGroup = {
                 merge_column_container.empty();
                 merge_column_container.append(html);
 
-                $('#mappings-list-dialog div.modal-body').html('<div class="alert alert-success">Mappings loaded...</div>')
+                $('#mappings-list-dialog div.modal-body')
+                    .html('<div class="alert alert-success">Mappings loaded...</div>')
                     .delay(3000)
                     .promise()
                     .done( function() {
@@ -466,11 +467,16 @@ Exporter = {
             });
 
         }).promise().done(function() {
-            var json_encoded = jq_column_groups_container.serializeObject();
+            var json_encoded          = jq_column_groups_container.serializeObject();
+            var export_dialog_content = $('#export-dialog div.modal-body');
+
+            export_dialog_content
+                .html('<div class="loader">Processing...</div>');
 
             // Simple validation to see of output CSV fields are not the same
             if ($.unique(json_encoded.merge_field).length < merge_column_containers.length) {
-                alert('Hmm... found a little problem with your output fields, there seems to be more than one field with the same name. Columns in CSV files should be unique :)');
+                export_dialog_content
+                    .html('<div class="alert alert-warning">Hmm... found a little problem with your output fields, there seems to be more than one field with the same name. Columns in CSV files should be unique </div>');
                 return false;
             }
 
@@ -481,11 +487,19 @@ Exporter = {
                 url: Exporter.options.url_export + Exporter.options.file_id + '/' + type,
                 data: json_encoded,
                 success: function(data) {
+
                     if (data.status === true) {
-                        var win = window.open(Exporter.options.url_download + Exporter.options.file_id + '/' + data.filetype, '_blank');
-                        win.focus();
+                        export_dialog_content
+                            .empty()
+                            .html('<h3>Processing Complete!</h3><p>Click download link below to get the processed file.</p><p> <a href="' +
+                                Exporter.options.url_download + Exporter.options.file_id + '/' + data.filetype +
+                                '">Download</a></p>')
+                            .promise();
                     } else {
-                        alert(data.message);
+                        export_dialog_content
+                            .empty()
+                            .html('<div class="alert alert-warning">' + data.message + '</div>')
+                            .promise();
                     }
                 },
                 dataType: 'json'
