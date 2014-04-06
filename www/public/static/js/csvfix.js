@@ -483,6 +483,9 @@ Exporter = {
             }
 
             // Process serialised form data via server side
+            console.log(Exporter.options.url_preview);
+            console.log(Exporter.options.file_id);
+
             $.ajax({
                 type: "POST",
                 cache: false,

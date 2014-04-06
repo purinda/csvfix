@@ -15,14 +15,6 @@
   <!-- Custom Theme  -->
   <link rel="stylesheet" href="{{ URL::to('static/bootstrap/css/bootstrap.min.css') }}" type="text/css" media="screen" />
 
-  <!-- Javascripts -->
-  <script type="text/javascript" src="{{ URL::to('static/js/jquery-2.1.0.min.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::to('static/bootstrap/js/bootstrap.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.min.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::to('static/js/jquery.serializeobject.js') }}"></script>
-  <script type="text/javascript" src="{{ URL::to('static/js/csvfix.js') }}"></script>
-
   <!-- Globals -->
   <script type="text/javascript">
       window.BaseUrl = "{{ URL::to('/') }}";
@@ -33,6 +25,14 @@
       Auth.Check = false;
     @endif
   </script>
+
+  <!-- Javascripts -->
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery-2.1.0.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/bootstrap/js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.datatables.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/jquery.serializeobject.js') }}"></script>
+  <script type="text/javascript" src="{{ URL::to('static/js/csvfix.js') }}"></script>
 </head>
 <body>
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
