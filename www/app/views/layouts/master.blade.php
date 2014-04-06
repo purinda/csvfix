@@ -68,8 +68,8 @@
           @endif
             <ul class="dropdown-menu">
               @if(!Auth::check())
-              <li><a data-toggle="modal" data-target="#sign-in-dialog"><span class="glyphicon glyphicon-pencil"></span> Sign In</a></li>
-              <li><a data-toggle="modal" data-target="#registration-dialog"><span class="glyphicon glyphicon-hand-up"></span> Register</a> </li>
+              <li><a href="#" data-toggle="modal" data-target="#sign-in-dialog"><span class="glyphicon glyphicon-pencil"></span> Sign In</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#registration-dialog"><span class="glyphicon glyphicon-hand-up"></span> Register</a> </li>
               @else
               <li><a href="#" class="btn-logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
               <li class="divider"></li>
