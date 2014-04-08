@@ -16,7 +16,6 @@ UserManagement = {
         });
 
         $('div.navbar ul.nav a.btn-logout').on('click', function(evt) {
-            console.log('logout');
             UserManagement.logout();
         });
 
@@ -535,9 +534,6 @@ Exporter = {
             }
 
             // Process serialised form data via server side
-            console.log(Exporter.options.url_preview);
-            console.log(Exporter.options.file_id);
-
             $.ajax({
                 type: "POST",
                 cache: false,
