@@ -24,7 +24,7 @@
               <ul class="dropdown-menu pull-right" role="menu">
                 @foreach($columns_menu as $prefix => $column)
                 @if (!is_array($column))
-                <li><a href="#" class="btn-add-column" data-column="{{ $column }}" data-column-display-name="{{ $columns[$prefix] }}">{{ $columns[$prefix] }}</a></li>
+                <li><a href="#" class="btn-add-column" data-column="{{ $prefix }}" data-column-display-name="{{ $column }}">{{ $column }}</a></li>
                 @else
                   <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">{{ $prefix }}</a>
