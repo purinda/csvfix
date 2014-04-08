@@ -80,6 +80,8 @@ class FieldMapper{
     }
 
     protected function process($limit = null) {
+        // Increase memory limit
+        ini_set('memory_limit','1200M');
 
         // Load content if empty
         if (empty($this->content)) {
@@ -134,6 +136,8 @@ class FieldMapper{
             }
         }
 
+        // Reset memory limit
+        ini_set('memory_limit','512M');
     }
 
     public function getProcessedContent($limit = null) {
